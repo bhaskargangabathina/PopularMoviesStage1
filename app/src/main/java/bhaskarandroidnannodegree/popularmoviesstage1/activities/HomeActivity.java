@@ -87,8 +87,8 @@ public class HomeActivity extends AppCompatActivity implements OnMovieClickListe
         Bundle args = new Bundle();
       args.putSerializable(MovieDetailFragment.KEY_MOVIE, movie);
         newDesriptionFragment.setArguments(args);
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, newDesriptionFragment,
-            "fragmentContentDetail").commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container,
+            newDesriptionFragment).commit();
     } else {
       Intent intent = new Intent(this, MovieDetailActivity.class)
           .putExtra(MovieDetailFragment.KEY_MOVIE, movie);
@@ -103,8 +103,7 @@ public class HomeActivity extends AppCompatActivity implements OnMovieClickListe
       Bundle args = new Bundle();
       args.putSerializable(MovieDetailFragment.KEY_MOVIE, movie);
       newDesriptionFragment.setArguments(args);
-      fragmentManager.beginTransaction().replace(R.id.fragment_container, newDesriptionFragment,
-          "fragmentContentDetail").commit();
+      fragmentManager.beginTransaction().replace(R.id.fragment_container, newDesriptionFragment).commit();
     }
   }
 }
