@@ -34,7 +34,6 @@ public class HomeActivity extends AppCompatActivity implements OnMovieClickListe
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    mHasTwoPane = false;
     if (savedInstanceState == null) {
       //fragment = new MovieListFragment();
       fragment = MovieListFragment.getInstance(this);
@@ -48,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements OnMovieClickListe
 
     if (findViewById(R.id.fragment_container) != null) {
       mHasTwoPane = true;
+      Log.v("BHASKAR", "mHasTwoPane="+mHasTwoPane);
         detailFragment = new MovieDetailFragment();
         fragmentManager.beginTransaction()
             .add(R.id.fragment_container, detailFragment)
@@ -77,15 +77,11 @@ public class HomeActivity extends AppCompatActivity implements OnMovieClickListe
   protected void onSaveInstanceState(Bundle savedInstanceState) {
     super.onSaveInstanceState(savedInstanceState);
     fragmentManager.putFragment(savedInstanceState, "fragmentContent", fragment);
-    if (findViewById(R.id.fragment_container) != null) {
-      if(detailFragment != null) {
-        fragmentManager.putFragment(savedInstanceState, "fragmentContentDetail", detailFragment);
-      }
-    }
   }
 
   @Override
   public void onMovieClicked(Movie movie) {
+    Log.v("BHASKAR", "mHasTwoPane="+mHasTwoPane);
     if (mHasTwoPane) {
         MovieDetailFragment newDesriptionFragment = new MovieDetailFragment();
         Bundle args = new Bundle();
