@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import bhaskarandroidnannodegree.popularmoviesstage1.BuildConfig;
 import bhaskarandroidnannodegree.popularmoviesstage1.interfaces.AsyncResponse;
 import bhaskarandroidnannodegree.popularmoviesstage1.model.Movie;
 
@@ -41,7 +42,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
     public AsyncResponse delegate;
     private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
-    private final String API_KEY = "9f7d195229f295983b9884dca6dffab0";
+   // private final String API_KEY = "9f7d195229f295983b9884dca6dffab0";
     private final String MOVIE_POSTER_BASE = "http://image.tmdb.org/t/p/";
     private final String MOVIE_POSTER_SIZE = "w185";
 
@@ -71,7 +72,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                     .appendQueryParameter(SORT_BY, sortBy)
-                    .appendQueryParameter(KEY, API_KEY)
+                    .appendQueryParameter(KEY, BuildConfig.MOVIE_DB_API_KEY)
                     .build();
 
             URL url = new URL(builtUri.toString());
@@ -145,6 +146,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
     private List<Movie> extractData(String moviesJsonStr) throws JSONException {
 
         // Items to extract
+        final String MOVIE_ID = "id";
         final String ARRAY_OF_MOVIES = "results";
         final String ORIGINAL_TITLE = "original_title";
         final String POSTER_PATH = "poster_path";
@@ -162,13 +164,14 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
             // for each movie in the JSON object create a new
             // movie object with all the required data
             JSONObject movie = moviesArray.getJSONObject(i);
+            String movie_id = movie.getString(MOVIE_ID);
             String title = movie.getString(ORIGINAL_TITLE);
             String poster = MOVIE_POSTER_BASE + MOVIE_POSTER_SIZE + movie.getString(POSTER_PATH);
             String overview = movie.getString(OVERVIEW);
             String voteAverage = movie.getString(VOTE_AVERAGE);
             String releaseDate = getYear(movie.getString(RELEASE_DATE));
 
-            movies.add(new Movie(title, poster, overview, voteAverage, releaseDate));
+            movies.add(new Movie(movie_id, title, poster, overview, voteAverage, releaseDate));
 
         }
 

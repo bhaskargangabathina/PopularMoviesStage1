@@ -19,6 +19,7 @@ import bhaskarandroidnannodegree.popularmoviesstage1.R;
 import bhaskarandroidnannodegree.popularmoviesstage1.interfaces.AsyncResponse;
 import bhaskarandroidnannodegree.popularmoviesstage1.asynctasks.FetchMoviesTask;
 import bhaskarandroidnannodegree.popularmoviesstage1.adapters.ImageAdapter;
+import bhaskarandroidnannodegree.popularmoviesstage1.interfaces.OnMovieClickListener;
 import bhaskarandroidnannodegree.popularmoviesstage1.model.Movie;
 import bhaskarandroidnannodegree.popularmoviesstage1.activities.MovieDetailActivity;
 
@@ -36,8 +37,16 @@ public class MovieListFragment extends Fragment {
     private ImageAdapter mMoviePosterAdapter;
     String sortOrder;
     List<Movie> movies = new ArrayList<Movie>();
+    private static MovieListFragment fragment;
+    private static OnMovieClickListener listener;
 
-    public MovieListFragment() {
+    public static MovieListFragment getInstance(OnMovieClickListener cslistener) {
+        fragment = new MovieListFragment();
+        listener = cslistener;
+        return fragment;
+    }
+
+   public MovieListFragment(){
         setHasOptionsMenu(true);
     }
 
@@ -51,7 +60,8 @@ public class MovieListFragment extends Fragment {
 
         if(savedInstanceState != null){
             ArrayList<Movie> storedMovies = new ArrayList<Movie>();
-            storedMovies = savedInstanceState.<Movie>getParcelableArrayList(STORED_MOVIES);
+            storedMovies =
+                (ArrayList<Movie>) savedInstanceState.getSerializable(STORED_MOVIES);
             movies.clear();
             movies.addAll(storedMovies);
         }
@@ -82,9 +92,10 @@ public class MovieListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Movie details = movies.get(position);
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class)
-                        .putExtra("movies_details", details);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), MovieDetailActivity.class)
+//                        .putExtra("movies_details", details);
+//                startActivity(intent);
+                listener.onMovieClicked(details);
             }
 
         });
@@ -113,7 +124,7 @@ public class MovieListFragment extends Fragment {
         super.onSaveInstanceState(outState);
         ArrayList<Movie> storedMovies = new ArrayList<Movie>();
         storedMovies.addAll(movies);
-        outState.putParcelableArrayList(STORED_MOVIES, storedMovies);
+        outState.putSerializable(STORED_MOVIES, storedMovies);
     }
 
     private void getMovies() {
@@ -123,6 +134,9 @@ public class MovieListFragment extends Fragment {
                 movies.clear();
                 movies.addAll(results);
                 updatePosterAdapter();
+              if(movies.size()>0) {
+                listener.onMoviesFetch(movies.get(0));
+              }
             }
         });
         fetchMoviesTask.execute(sortOrder);

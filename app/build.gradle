@@ -17,6 +17,9 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  buildTypes.each {
+    it.buildConfigField 'String', 'MOVIE_DB_API_KEY', '"9f7d195229f295983b9884dca6dffab0"'
+  }
 }
 
 dependencies {
@@ -25,4 +28,5 @@ dependencies {
   compile 'com.android.support:appcompat-v7:23.1.1'
   compile 'com.android.support:design:23.1.1'
   compile 'com.squareup.picasso:picasso:2.5.2'
+  compile 'com.android.support:cardview-v7:23.0.+'
 }

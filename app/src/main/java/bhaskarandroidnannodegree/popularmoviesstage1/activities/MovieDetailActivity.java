@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import bhaskarandroidnannodegree.popularmoviesstage1.R;
 import bhaskarandroidnannodegree.popularmoviesstage1.fragments.MovieDetailFragment;
+import bhaskarandroidnannodegree.popularmoviesstage1.model.Movie;
 
 /*
 *
@@ -21,15 +22,21 @@ import bhaskarandroidnannodegree.popularmoviesstage1.fragments.MovieDetailFragme
 public class MovieDetailActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager = getFragmentManager();
+    Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
+        movie = (Movie) getIntent().getSerializableExtra(MovieDetailFragment.KEY_MOVIE);
         if (savedInstanceState == null) {
+            MovieDetailFragment newDesriptionFragment = new MovieDetailFragment();
+            Bundle args = new Bundle();
+            args.putSerializable(MovieDetailFragment.KEY_MOVIE, movie);
+            newDesriptionFragment.setArguments(args);
             fragmentManager.beginTransaction()
-                    .add(R.id.container, new MovieDetailFragment())
+                    .add(R.id.container, newDesriptionFragment)
                     .commit();
         }
         //getSupportActionBar().setElevation(0f);

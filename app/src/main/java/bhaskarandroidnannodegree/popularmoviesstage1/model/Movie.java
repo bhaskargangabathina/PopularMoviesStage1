@@ -15,71 +15,52 @@ package bhaskarandroidnannodegree.popularmoviesstage1.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Movie implements Parcelable {
-    private String title;
-    private String poster;
-    private String overview;
-    private String voteAverage;
-    private String releaseDate;
+import java.io.Serializable;
 
-    public Movie(String title, String poster, String overview,
-                 String voteAverage, String releaseDate){
-        this.title = title;
-        this.poster = poster;
-        this.overview = overview;
-        this.voteAverage = voteAverage;
-        this.releaseDate = releaseDate;
-    }
+public class Movie implements Serializable {
+  private String id;
+  private String title;
+  private String poster;
+  private String overview;
+  private String voteAverage;
+  private String releaseDate;
 
-    public String getTitle() {
-        return title;
-    }
+  public Movie(String id, String title, String poster, String overview,
+               String voteAverage, String releaseDate) {
+    this.id = id;
+    this.title = title;
+    this.poster = poster;
+    this.overview = overview;
+    this.voteAverage = voteAverage;
+    this.releaseDate = releaseDate;
+  }
 
-    public String getPoster() {
-        return poster;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getOverview() {
-        return overview;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getVoteAverage() {
-        return voteAverage;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getReleaseDate() {
-        return releaseDate;
-    }
+  public String getPoster() {
+    return poster;
+  }
 
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeString(title);
-        out.writeString(poster);
-        out.writeString(overview);
-        out.writeString(voteAverage);
-        out.writeString(releaseDate);
-    }
+  public String getOverview() {
+    return overview;
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+  public String getVoteAverage() {
+    return voteAverage;
+  }
 
-    private Movie(Parcel in) {
-        title = in.readString();
-        poster = in.readString();
-        overview = in.readString();
-        voteAverage = in.readString();
-        releaseDate = in.readString();
-    }
+  public String getReleaseDate() {
+    return releaseDate;
+  }
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 }
